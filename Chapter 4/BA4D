@@ -28,7 +28,6 @@ def CountingAllCombinations(mass,counter,aa_masses):
 
         counter[mass] += CountingAllCombinations(mass - element,counter,aa_masses)
 
-
     return counter[mass]
 
 
