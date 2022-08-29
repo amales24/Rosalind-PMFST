@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+def Complement(p):
+    if p == 'A':
+        return 'T'
+    if p == 'T':
+        return 'A'
+    if p == 'G':
+        return 'C'
+    if p == 'C':
+        return 'G'
+
+def ReverseComplement(Pattern):
+    
+    n = len(Pattern)
+    rev_comp = ""
+    
+    for i in range(0, n):
+        rev_comp = Complement(Pattern[i]) + rev_comp
+                              
+    return rev_comp
+
+with open("rosalind_ba1c.txt") as file:
+    line = file.readline()
+print (ReverseComplement(line.strip("\n")))
