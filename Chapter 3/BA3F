@@ -14,21 +14,22 @@ def rosalindInputToGraph(text):
 
 def EulerianCycle(graph):
     
-    # start cycle with any node
+    # starting the cycle with the first node
     cycle = [list(graph.keys())[0]]
     # run until all edges are moved from graph to cycle
     while len(graph) > 0:
-        # whenever cycle closes rotate to a node with remaining targets
+        # whenever cycle closes rotate to a node with remaining target nodes
         if cycle[0] == cycle[-1]:
             while not cycle[0] in graph:
                 cycle.pop(0)
                 cycle.append(cycle[0])
         # the last node of cycle is the new start
         start = cycle[-1]
-        # move one target at a time from graph to the end of cycle
+        # move a target node from graph to the end of cycle
         cycle.append(graph[start].pop())
-        # clean up empty dict entries of graph
-        if len(graph[start]) == 0: del graph[start]
+        # if a key (node) in dict has no more values (target nodes) we can remove it from the dictionary
+        if len(graph[start]) == 0: 
+            del graph[start]
         
     return cycle
 
