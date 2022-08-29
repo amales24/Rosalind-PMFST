@@ -1,0 +1,179 @@
+#!/usr/bin/env python3
+
+def getAminoAcidMass():
+
+    AminoAcids = 'GASPVTCILNDKQEMHFRYW'
+    Mass = [57,71,87,97,99,101,103,113,113,114,115,128,128,129,131,137,147,
+            156,163,186]
+
+    dictionary = {}
+
+    for i in range (0,len(Mass)):
+
+        dictionary[AminoAcids[i]] = Mass[i]
+
+    return dictionary
+
+
+def CycloSpectrum(Peptide):
+
+    n = len(Peptide)
+
+    Subpeptides=['']
+    Spectrum=[0]
+
+    for i in range(0,n):
+
+        subpeptide = ''
+        subpeptide_mass = 0
+        
+        for j in range(1,n):
+
+            subpeptide += Peptide[(i+j)%n]
+            subpeptide_mass += getAminoAcidMass()[Peptide[(i+j)%n]]
+
+            Spectrum.append(subpeptide_mass)
+            Subpeptides.append(subpeptide)
+
+
+    if (n > 1):
+        first_sub = Peptide[0]
+        complement = Peptide[1:]
+        index_first = Subpeptides.index(first_sub)
+        index_comp =  Subpeptides.index(complement)
+    
+        mass_all = Spectrum[index_first] + Spectrum[index_comp]
+        Spectrum.append(mass_all)
+    else:
+        Spectrum.append(getAminoAcidMass()[Peptide])
+    
+    Spectrum.sort()
+
+    return Spectrum
+
+'''__________________________________________________________________________'''
+
+def LinearSpectrum(Peptide):
+    
+    n = len(Peptide)
+
+    Subpeptides=['']
+    Spectrum=[0]
+
+    for i in range(0,n):
+
+        subpeptide = ''
+        subpeptide_mass = 0
+
+        '''expanding a subpeptide with starting position "i" one element at a time'''
+        for j in range(1,n+1-i):
+
+            subpeptide += Peptide[i+j-1]
+            subpeptide_mass += getAminoAcidMass()[Peptide[i+j-1]]
+
+            Spectrum.append(subpeptide_mass)
+            Subpeptides.append(subpeptide)
+
+    
+    Spectrum.sort()
+
+    return Spectrum
+
+
+def CyclopeptideSequencing(Spectrum):
+
+    Peptides = ['']
+    parentMass = Spectrum[-1]
+
+    result = []
+
+    while len(Peptides) > 0:
+
+        removeList = []
+        Peptides = Expand(Peptides)
+
+        for peptide in Peptides:
+            
+            peptide_spectrum = CycloSpectrum(peptide)
+            peptide_mass = peptide_spectrum[-1]
+            
+            if peptide_mass == parentMass:
+                if peptide_spectrum == Spectrum:
+
+                    result.append(peptide)
+                    
+                removeList.append(peptide)
+
+            elif not Consistent(LinearSpectrum(peptide), Spectrum):
+                
+                removeList.append(peptide)
+
+        for element in removeList:
+            Peptides.remove(element)
+
+    return  rosalindOutput(result)  
+
+        
+
+def Expand(Peptides):
+
+    peptides_new = []
+       
+    for peptide in Peptides:
+
+        for aa in getAminoAcidMass():
+
+            newPeptide = peptide + aa
+            peptides_new.append(newPeptide)
+
+    return peptides_new
+
+
+def Consistent(peptide_spectrum, Spectrum):
+
+    '''creating a copy of Spectrum so the original wouldn't be affected'''
+    spectrum_copy = []
+    
+    for element in Spectrum:
+        spectrum_copy.append(element)
+        
+    for element in peptide_spectrum:
+
+        '''removing elements to make sure a certain element doesn't appear
+            in peptide_spectrum more times than in Spectrum'''
+        if element in spectrum_copy:
+            spectrum_copy.remove(element)
+
+        elif element not in spectrum_copy:
+             return False
+
+    return True
+
+
+def rosalindOutput(result):
+
+    output = []
+
+    for peptide in result:
+
+        out = []
+        
+        for aa in peptide:
+            out.append(str(getAminoAcidMass()[aa]))
+
+        out = '-'.join(out)
+        output.append(out)
+
+    output = set(output) # removing duplicates
+
+    return ' '.join(output)
+
+            
+
+with open("rosalind_ba4e.txt") as file:
+    line = file.readline()
+
+Spectrum = line.strip('\n').split(' ')
+Spectrum = [int(x) for x in Spectrum]
+
+print(CyclopeptideSequencing(Spectrum))
