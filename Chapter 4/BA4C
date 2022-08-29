@@ -12,6 +12,10 @@ def CycloSpectrum(Peptide):
     Spectrum=[0]
 
 
+    '''
+    "i" goes over every position in peptide, "j" determines the length of the subpeptide and "k" goes over each symbol 
+    in the given subpeptide of length j 
+    '''
     for i in range(0,n):
         for j in range(1,n):
 
