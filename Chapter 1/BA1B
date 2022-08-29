@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+def MostFrequent(Text, k):
+    # creating a dictionary where keys are k-mers and values are the number of occurences of those k-mers in text
+    dictionary = {}
+    
+    for i in range (0, len(Text) - k + 1):
+        if ( Text[i:i+k] not in dictionary.keys()):
+            dictionary[Text[i:i+k]] = 1
+        else:
+            dictionary[Text[i:i+k]] += 1
+
+    max_value = max(dictionary.values())
+    
+    string_keys = ""
+
+    for key in dictionary.keys():
+        if dictionary[key] == max_value:
+            string_keys += key + " "
+
+    return string_keys
+    
+            
+with open("rosalind_ba1b.txt") as file:
+    lines = file.readlines()
+print(MostFrequent(lines[0].strip("\n"),int(lines[1].strip("\n"))))
