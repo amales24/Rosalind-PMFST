@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+def FindClump(Genome,k,L,t):
+
+    dictionary = {0:[]}
+    out = ""
+
+    for i in range (0, len(Genome) - k + 1):
+        pattern = Genome[i:i+k]
+        if (pattern not in dictionary.keys()):
+            dictionary[pattern] = [i]
+        elif (len(dictionary[pattern]) < t):
+            dictionary[pattern].append(i)
+            if ((i + k - dictionary[pattern][0]) > L):
+                dictionary[pattern].pop(0)
+
+    for key in dictionary.keys():
+        if len(dictionary[key]) >= t:
+            out += str(key) + " "
+
+    return out
+
+    
+with open("rosalind_ba1e.txt") as file:
+    lines = file.readlines()
+    line2 = lines[1].strip("\n").split(" ")
+print (FindClump(lines[0].strip("\n"),int(line2[0]), int(line2[1]),
+                int(line2[2])))
