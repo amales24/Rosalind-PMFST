@@ -13,19 +13,18 @@ def CycloSpectrum(Peptide):
 
 
     '''
-    "i" goes over every position in peptide, "j" determines the length of the subpeptide and "k" goes over each symbol 
-    in the given subpeptide of length j 
+    "i" goes over every position in peptide, "j" determines the length of the subpeptide 
     '''
     for i in range(0,n):
+
+        subpeptide = ''
+        subpeptide_mass = 0
+        
         for j in range(1,n):
 
-            subpeptide = ''
-            subpeptide_mass = 0
-            for k in range(i,i+j):
-
-                subpeptide += Peptide[k%n]
-                index = AminoAcids.index(Peptide[k%n])
-                subpeptide_mass += Mass[index]
+            subpeptide += Peptide[(i+j)%n]
+            index = AminoAcids.index(Peptide[(i+j)%n])
+            subpeptide_mass += Mass[index]
 
             Spectrum.append(subpeptide_mass)
             Subpeptides.append(subpeptide)
