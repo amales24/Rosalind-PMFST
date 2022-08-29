@@ -31,15 +31,19 @@ def CycloSpectrum(Peptide):
 
 
     '''
-    getting the mass of the whole peptide by adding masses of two complementary subpeptides
+    getting the mass of the whole peptide by adding masses of two complementary subpeptides (if subpeptide has at least two elements)
     '''
-    first_sub = Peptide[0]
-    complement = Peptide[1:]
-    index_first = Subpeptides.index(first_sub)
-    index_comp =  Subpeptides.index(complement)
+    if (n > 1):
+        first_sub = Peptide[0]
+        complement = Peptide[1:]
+        index_first = Subpeptides.index(first_sub)
+        index_comp =  Subpeptides.index(complement)
     
-    mass_all = Spectrum[index_first] + Spectrum[index_comp]
-    Spectrum.append(mass_all)
+        mass_all = Spectrum[index_first] + Spectrum[index_comp]
+        Spectrum.append(mass_all)
+    else:
+        index = AminoAcids.index(Peptide)
+        Spectrum.append(Mass[index])
     
     Spectrum.sort()
 
