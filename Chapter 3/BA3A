@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+
+def Composition(k, Text):
+
+    composition = ""
+    
+    for i in range (0, len(Text) - k + 1):
+        composition += Text[i:i+k] + "\n"
+
+    return composition
+
+
+with open("rosalind_ba3a.txt") as file:
+    lines = file.readlines()
+print (Composition(int(lines[0].strip("\n")),lines[1].strip("\n")))
