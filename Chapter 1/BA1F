@@ -1,0 +1,26 @@
+#!/usr/bin/env python3
+
+def MinSkew (Genome):
+
+    counter = 0
+    dictionary = {0:0} #starting with 0
+    out = ""
+    
+    for i in range (0, len(Genome)):
+        if (Genome[i] == "C"):
+            counter -= 1
+        elif (Genome[i] == "G"):
+            counter += 1
+        dictionary[i+1] = counter
+
+    minValue = min(dictionary.values())
+
+    for key in dictionary.keys():
+        if dictionary[key] == minValue:
+            out += str(key) + " "
+
+    return out
+            
+with open("C:/Users/Malesi/Downloads/rosalind_ba1f.txt") as file:
+    line = file.readline()
+print (MinSkew(line.strip("\n")))
