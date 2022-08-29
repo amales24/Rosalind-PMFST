@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+def HammingDistance(p,q):
+    n = len(p)
+    counter = 0
+    for i in range(0,n):
+        if p[i] != q[i]:
+            counter += 1
+    return counter
+
+
+def SubstringStartingPositions(Pattern,Text,d):
+
+    start_positions = ""
+    
+    for i in range (0, len(Text) - len(Pattern) + 1):
+        if HammingDistance(Text[i : i + len(Pattern)],Pattern) <= int(d):
+            start_positions += str(i) + " "
+
+    return start_positions
+
+
+with open("rosalind_ba1h.txt") as file:
+    lines = file.readlines()
+print(SubstringStartingPositions(lines[0].strip("\n"),lines[1].strip("\n"), lines[2].strip("\n")))
