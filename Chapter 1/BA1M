@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+def NumberToSymbol(num):
+
+    if num == 0:
+        return "A"
+    if num == 1:
+        return "C"
+    if num == 2:
+        return "G"
+    if num == 3:
+        return "T"
+
+
+def NumberToPattern(index,k):
+
+    if k == 1:
+        return NumberToSymbol(index)
+
+    remainder = index % 4
+    index = index // 4
+    pattern = NumberToPattern(index,k-1) 
+    return pattern + NumberToSymbol(remainder)
+
+
+with open("rosalind_ba1m.txt") as file:
+    lines = file.readlines()
+print(NumberToPattern(int(lines[0].strip("\n")),int(lines[1].strip("\n"))))
