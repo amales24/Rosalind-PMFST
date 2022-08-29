@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+
+'''
+choosing the row of the Profile table
+'''
+def Row(char):
+
+    if char == 'A':
+        return 0
+    if char == 'C':
+        return 1
+    if char == 'G':
+        return 2
+    if char == 'T':
+        return 3
+
+
+def Probability(kmer, Profile):
+
+    prob = 1
+    for i in range(0,len(kmer)):
+
+        char = kmer[i]
+        row = Row(char)
+        prob *= Profile[row][i]
+
+    return prob
+
+
+'''
+counting the probability of all k-mers in text and selecting the one with maximum probability
+'''
+def ProfileMostProbable_kMer(Text, k, Profile):
+
+    maximum = Probability(Text[0:k],Profile)
+    most_probable = Text[0:k]
+    
+    for i in range(1,len(Text) - k + 1):
+
+        if (Probability(Text[i:i+k],Profile) > maximum):
+
+            maximum = Probability(Text[i:i+k],Profile)
+            most_probable = Text[i:i+k]
+
+    return most_probable
+
+
+
+with open("rosalind_ba2c.txt") as file:
+    lines = file.readlines()
+
+Text = lines[0].strip('\n')
+k = int(lines[1].strip('\n'))
+Profile=[]
+
+for i in range(2, len(lines)):
+    
+    ProfileRow = lines[i].strip('\n').split(' ')
+    floatProfileRow = [float(element) for element in ProfileRow]
+    Profile.append(floatProfileRow)
+
+print(ProfileMostProbable_kMer(Text, k, Profile))
