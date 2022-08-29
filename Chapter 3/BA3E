@@ -1,0 +1,37 @@
+#!/usr/bin/env python3
+
+# creating a dictionary where keys are prefixes of each k-mer and values are arrays of corresponding suffixes
+
+def DeBruijn(Patterns):
+
+    k = len(Patterns[0])
+    nodes = {}
+    out = ""
+
+    for i in range(0,len(Patterns)):
+        
+        prefix = Patterns[i][0:k-1]
+        suffix = Patterns[i][1:k]
+        
+        if (prefix not in nodes.keys()):
+            nodes[prefix] = [suffix]
+        else:
+            nodes[prefix].append(suffix)
+
+    for prefix in nodes.keys():
+        out += prefix + " -> "
+        for suffix in sorted(nodes[prefix]):
+            out += suffix + ","
+        out = out.strip(",") # removing the last comma
+        out += "\n"
+
+    return out
+
+
+with open("rosalind_ba3e.txt") as file:
+    lines = file.readlines()
+    
+for i in range (0,len(lines)):
+    lines[i] = lines[i].strip("\n")
+    
+print(DeBruijn(lines))
