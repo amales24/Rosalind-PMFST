@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+def DeBrujin(k,Text):
+
+    r = k-1
+    overlaps = {}
+    out = ""
+
+    for i in range(0,len(Text)-k+1):
+
+        # keys: all (k-1)-mers, values: array of their follow up (k-1)-mers
+        if Text[i:i+r] not in overlaps:
+            overlaps[Text[i:i+r]] = [Text[i+1:i+r+1]]
+        else:
+            overlaps[Text[i:i+r]].append(Text[i+1:i+r+1])
+
+    for key in overlaps:
+        out += key + " -> "
+        for element in sorted(overlaps[key]):
+            out += element + ","
+        out = out.strip(",") # removing the last comma
+        out += "\n"
+
+    return out
+
+
+with open("rosalind_ba3d.txt") as file:
+    lines = file.readlines()
+    
+print(DeBrujin(int(lines[0].strip("\n")),lines[1].strip("\n")))
