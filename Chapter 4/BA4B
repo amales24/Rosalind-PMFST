@@ -61,7 +61,7 @@ def DNAtoAminoAcid(Pattern):
 
 def DNAencodingPeptide(Text,Peptide):
     
-    k = 3*len(Peptide) #duljina substringa kojeg prevodimo u peptid
+    k = 3*len(Peptide) # length of a substring being translated into peptide
     out = ""
     
     for i in range (0, len(Text) - k + 1):
