@@ -24,3 +24,5 @@ def MinSkew (Genome):
 with open("C:/Users/Malesi/Downloads/rosalind_ba1f.txt") as file:
     line = file.readline()
 print (MinSkew(line.strip("\n")))
+
+
