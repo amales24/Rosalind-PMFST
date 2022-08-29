@@ -1,0 +1,78 @@
+#!/usr/bin/env python3
+
+def HammingDistance(p,q):
+    n = len(p)
+    counter = 0
+    for i in range(0,n):
+        if p[i] != q[i]:
+            counter += 1
+    return counter
+
+
+def Neighbors(Pattern, d):
+    
+    if d == 0:
+       return [Pattern]
+    if len(Pattern) == 1:
+        return ['A','C','G','T']
+
+    neighborhood = []
+    suffixNeighbors = Neighbors(Pattern[1:], d)
+
+    for Text in suffixNeighbors:
+        if HammingDistance(Pattern[1:], Text) < d:
+            neighborhood.append('A'+Text)
+            neighborhood.append('C'+Text)
+            neighborhood.append('G'+Text)
+            neighborhood.append('T'+Text)
+        else:
+            neighborhood.append(Pattern[0] + Text)
+            
+    return neighborhood
+
+
+def MotifEnumeration(k, d, Dna):
+
+    possibleMotifs = []
+    
+    for i in range(0,len(Dna)):
+
+
+        all_neighb_in_row = set()
+        for j in range (0,len(Dna[i]) - k + 1):
+
+            neighbors = Neighbors(Dna[i][j:j+k],d)
+
+            for neighbor in neighbors:
+                all_neighb_in_row.add(neighbor)
+
+        possibleMotifs.append(all_neighb_in_row)
+
+    '''
+    intersecting all sets in possibleMotifs gives k-mers that appear as neighbors in each row
+    '''
+    Motifs = possibleMotifs[0]
+    for i in range(1, len(possibleMotifs)):
+
+        Motifs = Motifs.intersection(possibleMotifs[i])
+
+    return Motifs
+        
+
+def Output(array):
+
+    out = ' '.join(array)
+    print (out)
+            
+
+with open("rosalind_ba2a.txt") as file:
+    lines = file.readlines()
+
+    k = int(lines[0].strip('\n').split(' ')[0])
+    d = int(lines[0].strip('\n').split(' ')[1])
+    Dna = []
+
+    for i in range(1,len(lines)):
+        Dna.append(lines[i].strip('\n'))
+
+Output(MotifEnumeration(k,d,Dna))
