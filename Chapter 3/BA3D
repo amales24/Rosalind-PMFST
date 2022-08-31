@@ -16,7 +16,6 @@ def DeBrujin(k,Text):
 
             
     for key in overlaps:
-
         out += key + ' -> ' + ','.join(overlaps[key]) + '\n'
 
     return out
