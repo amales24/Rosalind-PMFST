@@ -14,12 +14,10 @@ def DeBrujin(k,Text):
         else:
             overlaps[Text[i:i+r]].append(Text[i+1:i+r+1])
 
+            
     for key in overlaps:
-        out += key + " -> "
-        for element in sorted(overlaps[key]):
-            out += element + ","
-        out = out.strip(",") # removing the last comma
-        out += "\n"
+
+        out += key + ' -> ' + ','.join(overlaps[key]) + '\n'
 
     return out
 
