@@ -8,7 +8,7 @@ def DeBrujin(k,Text):
 
     for i in range(0,len(Text)-k+1):
 
-        # keys: all (k-1)-mers, values: array of their follow up (k-1)-mers
+        # keys: (k-1)-mers, values: array of their follow up (k-1)-mers
         if Text[i:i+r] not in overlaps:
             overlaps[Text[i:i+r]] = [Text[i+1:i+r+1]]
         else:
