@@ -13,8 +13,7 @@ def DeBrujin(k,Text):
             overlaps[Text[i:i+r]] = [Text[i+1:i+r+1]]
         else:
             overlaps[Text[i:i+r]].append(Text[i+1:i+r+1])
-
-            
+          
     for key in overlaps:
         out += key + ' -> ' + ','.join(overlaps[key]) + '\n'
 
